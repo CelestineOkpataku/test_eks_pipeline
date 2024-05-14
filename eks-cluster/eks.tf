@@ -14,6 +14,7 @@ module "eks_blueprints" {
     managed_node_groups = {
         role = {
             capacity_type = "ON_DEMAND"
+            
             node_group_name = "general"
             instance_types = ["c5.xlarge"]
             desired_size = "4"
