@@ -2,10 +2,14 @@
 
 This Terraform configuration sets up an AWS EKS cluster along with various add-ons and supporting infrastructure to create a resilient and scalable Kubernetes environment.
 
+
+## Important Note
+
+Before deploying this Terraform configuration in a production environment, it's essential to review and update certain configurations such as the backend, permissions etc. to suit your specific use case.I left mine so that you know where to make the change.
+
 ## Project Structure
 
 The project is structured to have multiple files named after the resource or service being created. Each resource or service has its own dedicated Terraform configuration file, facilitating organization and maintainability.
-
 
 ### Why Not .tfvars Files?
 
@@ -22,6 +26,7 @@ Before you begin, ensure you have:
 - An AWS account
 - Terraform installed locally
 - AWS CLI configured with appropriate access credentials
+- Change Backend and other configuration 
 
 
 ## Configuration Details
