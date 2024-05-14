@@ -45,7 +45,7 @@ provider "aws" {
 }
 */
 
-
+/*
 terraform {
   required_providers {
     aws = {
@@ -60,6 +60,7 @@ terraform {
     dynamodb_table = "dynamodb-state-locking"
   }
 }
+*/
 /*
 provider "aws" {
   region = "us-west-2"  // Ensure it matches your S3 bucket region
