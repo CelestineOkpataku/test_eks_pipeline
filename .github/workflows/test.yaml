@@ -25,16 +25,16 @@ jobs:
         terraform_version: 1.0.0
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform -chdir=eks-cluster init
 
     - name: Terraform Plan
       if: github.event_name == 'push'
-      run: terraform plan -no-color
+      run: terraform -chdir=eks-cluster plan -no-color
       continue-on-error: true
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+      run: terraform -chdir=eks-cluster apply -auto-approve
 
     - name: Configure kubectl
       run: aws eks --region us-west-2 update-kubeconfig --name okpataku-c
@@ -50,5 +50,4 @@ jobs:
 
     - name: Run Kyverno Script
       run: |
-        # Replace with your script execution command
         sh scripts/kyverno.sh
