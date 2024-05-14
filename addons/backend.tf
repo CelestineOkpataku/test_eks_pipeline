@@ -63,7 +63,7 @@ terraform {
 
 provider "aws" {
   region = "us-west-2"  // Ensure it matches your S3 bucket region
-  profile                 = "default" 
+ # profile                 = "default" 
 }
 
 data "aws_eks_cluster_auth" "this" {
