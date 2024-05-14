@@ -7,7 +7,7 @@ on:
 
 jobs:
   setup-eks-cluster:
-    name: Setup EKS Cluster
+    name: Setup EKS Cluster Okpataku
     runs-on: ubuntu-latest
 
     env:
