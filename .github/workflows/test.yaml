@@ -42,6 +42,7 @@ jobs:
   install-addons:
     name: Install Addons
     runs-on: ubuntu-latest
+    needs: setup-eks-cluster
 
     steps:
     - name: Checkout
@@ -67,6 +68,7 @@ jobs:
   run-scripts:
     name: Run Scripts
     runs-on: ubuntu-latest
+    needs: install-addons
 
     steps:
     - name: Checkout
