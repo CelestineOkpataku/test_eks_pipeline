@@ -1,0 +1,79 @@
+name: "Terraform EKS Setup"
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  setup-eks-cluster:
+    name: Setup EKS Cluster
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: us-west-2
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+
+    - name: Terraform Init EKS
+      run: terraform -chdir=eks init
+
+    - name: Terraform Plan EKS
+      if: github.event_name == 'push'
+      run: terraform -chdir=eks-cluster plan -no-color
+      continue-on-error: true
+
+    - name: Terraform Apply EKS
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform -chdir=eks-cluster apply -auto-approve
+
+    - name: Configure kubectl
+      run: aws eks --region us-west-2 update-kubeconfig --name okpataku-c
+
+  install-addons:
+    name: Install Addons
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+
+    - name: Terraform Init Addons
+      run: terraform -chdir=addons init
+
+    - name: Terraform Plan Addons
+      if: github.event_name == 'push'
+      run: terraform -chdir=addons plan -no-color
+      continue-on-error: true
+
+    - name: Terraform Apply Addons
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform -chdir=addons apply -auto-approve
+
+  run-scripts:
+    name: Run Scripts
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Run Kyverno Script
+      run: |
+        # Replace with your script execution command
+        cd scripts
+        ./kyverno.sh
