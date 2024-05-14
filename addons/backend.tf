@@ -11,6 +11,7 @@ provider "kubernetes" {
   }
 }
 
+/*
 provider "helm" {
   kubernetes {
     host                   = module.eks_blueprints.eks_cluster_endpoint
@@ -18,7 +19,7 @@ provider "helm" {
     token                  = data.aws_eks_cluster_auth.this.token
   }
 }
-
+*/
 
 data "aws_eks_cluster_auth" "this" {
   name = module.eks_blueprints.eks_cluster_id

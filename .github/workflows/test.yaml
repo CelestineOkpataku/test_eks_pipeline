@@ -25,7 +25,7 @@ jobs:
         terraform_version: 1.0.0
 
     - name: Terraform Init EKS
-      run: terraform -chdir=eks init
+      run: terraform -chdir=eks-cluster init
 
     - name: Terraform Plan EKS
       if: github.event_name == 'push'
@@ -75,5 +75,4 @@ jobs:
     - name: Run Kyverno Script
       run: |
         # Replace with your script execution command
-        cd scripts
-        ./kyverno.sh
+        sh scripts/kyverno.sh
