@@ -1,4 +1,4 @@
-name: "Terraform EKS Setup"
+name: Terraform EKS Setup
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
     - master
 
 jobs:
-  setup-eks-cluster:
-    name: Setup EKS Cluster Okpataku
+  setup-eks-and-addons:
+    name: Setup EKS Cluster and Install Addons
     runs-on: ubuntu-latest
 
     env:
@@ -24,51 +24,25 @@ jobs:
       with:
         terraform_version: 1.0.0
 
-    - name: Terraform Init EKS
-      run: terraform -chdir=eks-cluster init
+    - name: Terraform Init
+      run: terraform init
 
-    - name: Terraform Plan EKS
+    - name: Terraform Plan
       if: github.event_name == 'push'
-      run: terraform -chdir=eks-cluster plan -no-color
+      run: terraform plan -no-color
       continue-on-error: true
 
-    - name: Terraform Apply EKS
+    - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: terraform -chdir=eks-cluster apply -auto-approve
+      run: terraform apply -auto-approve
 
     - name: Configure kubectl
       run: aws eks --region us-west-2 update-kubeconfig --name okpataku-c
 
-  install-addons:
-    name: Install Addons
-    runs-on: ubuntu-latest
-    needs: setup-eks-cluster
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.0.0
-
-    - name: Terraform Init Addons
-      run: terraform -chdir=addons init
-
-    - name: Terraform Plan Addons
-      if: github.event_name == 'push'
-      run: terraform -chdir=addons plan -no-color
-      continue-on-error: true
-
-    - name: Terraform Apply Addons
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: terraform -chdir=addons apply -auto-approve
-
   run-scripts:
     name: Run Scripts
     runs-on: ubuntu-latest
-    needs: install-addons
+    needs: setup-eks-and-addons
 
     steps:
     - name: Checkout
