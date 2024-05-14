@@ -19,7 +19,7 @@ module "kubernetes_addons" {
     enable_aws_load_balancer_controller = true
     enable_metrics_server = true
     enable_cert_manager = true
-    enable_velero = true
+    #enable_velero = true
 
    # enable_cluster_autoscaler = true
     enable_karpenter = true
