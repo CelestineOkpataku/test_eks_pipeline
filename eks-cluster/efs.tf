@@ -16,7 +16,7 @@ resource "aws_efs_file_system" "eks" {
 }
 
 resource "aws_efs_mount_target" "zone" {
-    for_each = toset(module.vpc.private_subnets)
+    count = length(module.vpc.private_subnets)
 
     file_system_id = aws_efs_file_system.eks.id
     subnet_id = each.key
