@@ -19,7 +19,7 @@ resource "aws_efs_mount_target" "zone" {
     count = length(module.vpc.private_subnets)
 
     file_system_id = aws_efs_file_system.eks.id
-    subnet_id = each.key
+    subnet_id = module.vpc.private_subnets[count.index]
     security_groups = [module.eks_blueprints.cluster_primary_security_group_id]
 }
 
