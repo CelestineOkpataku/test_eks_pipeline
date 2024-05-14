@@ -26,11 +26,20 @@ data "aws_eks_cluster_auth" "this" {
 }
 
 terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0" 
+    }
+  }
   backend "s3" {
     bucket         = "celestine-okpataku-remote-backend"
     key            = "okpataku/comcast-assessment-addons/terraform.tfstate"
     region         = "us-west-2"
     dynamodb_table = "dynamodb-state-locking"
-
   }
+}
+
+provider "aws" {
+  region = "us-west-2" 
 }
