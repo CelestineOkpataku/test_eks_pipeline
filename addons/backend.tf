@@ -82,6 +82,7 @@ provider "kubernetes" {
   }
 }
 
+/*
 provider "helm" {
   kubernetes {
     host                   = module.eks_blueprints.eks_cluster_endpoint
@@ -94,3 +95,4 @@ provider "helm" {
     }
   }
 }
+*/
