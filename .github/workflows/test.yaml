@@ -3,7 +3,7 @@ name: "Terraform EKS Setup"
 on:
   push:
     branches:
-    - main
+    - master
 
 jobs:
   setup-eks-cluster:
