@@ -38,7 +38,6 @@ resource "kubernetes_storage_class_v1" efs {
     mount_options = ["iam"]
 
     depends_on = [module.kubernetes_addons]
-
 }
 
 

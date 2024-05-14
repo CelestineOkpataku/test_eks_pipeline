@@ -1,6 +1,6 @@
 # Variables
 variable "prometheus_version" {
-  default = "2.30.0"  # Change to your desired Prometheus version
+  default = "2.30.0" # Change to your desired Prometheus version
 }
 
 # CloudWatch Logs Group
@@ -22,22 +22,22 @@ resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
     Version = "2012-10-17",
     Statement = [
       {
-        Sid       = "AWSCloudTrailAclCheck",
-        Effect    = "Allow",
+        Sid    = "AWSCloudTrailAclCheck",
+        Effect = "Allow",
         Principal = {
           Service = "cloudtrail.amazonaws.com"
         },
-        Action    = "s3:GetBucketAcl",
-        Resource  = aws_s3_bucket.cloudtrail_bucket.arn
+        Action   = "s3:GetBucketAcl",
+        Resource = aws_s3_bucket.cloudtrail_bucket.arn
       },
       {
-        Sid       = "AWSCloudTrailWrite",
-        Effect    = "Allow",
+        Sid    = "AWSCloudTrailWrite",
+        Effect = "Allow",
         Principal = {
           Service = "cloudtrail.amazonaws.com"
         },
-        Action    = "s3:PutObject",
-        Resource  = "${aws_s3_bucket.cloudtrail_bucket.arn}/*",
+        Action   = "s3:PutObject",
+        Resource = "${aws_s3_bucket.cloudtrail_bucket.arn}/*",
         Condition = {
           StringEquals = {
             "s3:x-amz-acl" = "bucket-owner-full-control"
@@ -88,7 +88,7 @@ resource "kubernetes_deployment" "prometheus" {
             container_port = 9090
           }
           volume_mount {
-            name      = "config"
+            name       = "config"
             mount_path = "/etc/prometheus"
           }
         }

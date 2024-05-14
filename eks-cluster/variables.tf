@@ -1,36 +1,36 @@
-/*variable "exception_cidr_block" {
-  description = "CIDR block exception for inbound access to the EKS cluster"
-  default     = "196.182.32.48/32"
+
+
+locals {
+  tags = {
+    OWNER     = "OKPATAKU_CELESTINE"
+    CATEGORY  = "ENG_ASSESSMENT"
+  }
 }
 
-### VAriables for VPC
-variable "manage_default_security_group" {
-  description = "Should be true to adopt and manage default security group"
-  type        = bool
-  default     = true
+variable "kubecost_namespace" {
+  type    = string
+  default = "kubecost"
 }
 
-variable "default_security_group_name" {
-  description = "Name to be used on the default security group"
+variable "kubecost_helm_chart_values" {
   type        = string
-  default     = null
+  description = "Values in raw yaml to pass to helm to override defaults in the Kubecost Helm Chart."
+  default     = ""
 }
 
-variable "default_security_group_ingress" {
-  description = "List of maps of ingress rules to set on the default security group"
-  type        = list(map(string))
-  default     = []
+variable "kubecost_helm_chart_version" {
+  default     = "1.99.0"
+  type        = string
+  description = "The helm chart version of Kubecost. Versions can be found here https://github.com/kubecost/cost-analyzer-helm-chart/releases"
 }
 
-variable "default_security_group_egress" {
-  description = "List of maps of egress rules to set on the default security group"
-  type        = list(map(string))
-  default     = []
+variable "kubecost_token" {
+  default     = ""
+  type        = string
+  description = "A user token for Kubecost, obtained from the Kubecost organization. Can be obtained by providing email here https://kubecost.com/install"
 }
 
-variable "default_security_group_tags" {
-  description = "Additional tags for the default security group"
-  type        = map(string)
-  default     = {}
+variable "enable_kubecost" {
+  default = true
+  type    = bool
 }
-*/

@@ -1,6 +1,6 @@
 resource "kubernetes_horizontal_pod_autoscaler" "okpataku_hpa" {
   metadata {
-    name = "okpataku-c-hpa"
+    name      = "okpataku-c-hpa"
     namespace = "okpataku-c"
   }
   spec {

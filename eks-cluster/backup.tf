@@ -41,9 +41,9 @@ resource "aws_backup_plan" "eks_cluster_backup_plan" {
 
 # Create a backup selection for the EKS cluster
 resource "aws_backup_selection" "eks_cluster_backup_selection" {
-  name                = "eks-cluster-backup-selection"
-  iam_role_arn        = aws_iam_role.eks_backup_role.arn
-  plan_id             = aws_backup_plan.eks_cluster_backup_plan.id
+  name         = "eks-cluster-backup-selection"
+  iam_role_arn = aws_iam_role.eks_backup_role.arn
+  plan_id      = aws_backup_plan.eks_cluster_backup_plan.id
   selection_tag {
     type  = "STRINGEQUALS"
     key   = "kubernetes.io/cluster/okpataku-c"
