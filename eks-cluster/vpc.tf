@@ -29,10 +29,26 @@ module "vpc" {
     }
 }
 
+
+resource "aws_route" "nat_gateway" {
+  for_each = module.vpc.public_subnets
+  route_table_id         = aws_route_table_association.public[each.key].route_table_id
+  destination_cidr_block = "196.182.32.48/32"
+  nat_gateway_id         = module.vpc.natgw_ids
+}
+
+resource "aws_route" "internet_gateway" {
+  for_each = module.vpc.public_subnets
+  route_table_id         = aws_route_table_association.public[each.key].route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = module.vpc.igw_id
+}
+
+/*
 resource "aws_network_acl" "eks_nacl" {
   vpc_id = module.vpc.vpc_id
 
-  
+ 
  egress {
     protocol   = "-1"  # All protocols
     rule_no    = 200
@@ -169,3 +185,4 @@ variable "default_security_group_tags" {
 locals {
   create_vpc = true  # or false, depending on your condition
 }
+*/
